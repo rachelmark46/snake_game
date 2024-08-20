@@ -1,21 +1,16 @@
 # snake_game
 
-Snake Game Version 2.0
+A new Flutter project.
 
-New Features:
+## Getting Started
 
-Added a competitive 2-player mode with AI as your opponent.
-Introduced difficulty levels: Easy, Medium, and Hard.
-Track high scores and player wins.
-Enhanced game experience with sound effects for snake movement, eating food, and game over.
-Updated user interface for a more professional look.
-Improvements:
+This project is a starting point for a Flutter application.
 
-Optimized game controls for smoother gameplay.
-Improved pause and resume functionality.
-Minor bug fixes and performance enhancements.
+A few resources to get you started if this is your first Flutter project:
 
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-
-
-
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
