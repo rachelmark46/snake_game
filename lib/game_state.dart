@@ -1,3 +1,4 @@
+
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ enum Direction { up, down, left, right }
 class _SnakeGamePageState extends State<SnakeGamePage> {
   late AudioPlayer _audioPlayer;
 
-  int row = 20, column = 20;
+  int row = 20,
+      column = 20;
   List<int> borderList = [];
   List<int> userSnakePosition = [];
   List<int> computerSnakePosition = [];
@@ -164,7 +166,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
       builder: (context) {
         return AlertDialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: const Text(
             "Game Over",
             style: TextStyle(
@@ -326,164 +328,6 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
     await _audioPlayer.play(AssetSource('audio/game_over.mp3'));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          // Show the game view and controls if the game is running
-          if (isGameRunning)
-            Expanded(
-              child: Column(
-                children: [
-                  // Expanded(flex: 1, child:getScore()),
-                  getScores(),
-                  Expanded(flex: 3, child: _buildGameView()),
-                  Expanded(flex: 2, child: _buildGameControls()),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGameView() {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 5),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: column),
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.all(1),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: fillBoxColor(index)),
-            );
-          },
-          itemCount: row * column,
-        ),
-      ),
-    );
-  }
-
-  Widget getScores() {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          if (!isTwoPlayer)
-            Column(
-              children: [
-                Text(
-                  "Score: $userScore",
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
-                ),
-                Text(
-                  "High Score: $userHighScore",
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
-                ),
-              ],
-            ),
-          if (isTwoPlayer)
-            Column(
-              children: [
-                Text(
-                  "Player 1 Wins: $userWins",
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
-                ),
-                Text(
-                  "Player 2 Wins: $computerWins",
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
-                ),
-              ],
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGameControls() {
-    return Container(
-      //padding: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-            onPressed: () {
-              if (userDirection != Direction.down) userDirection = Direction.up;
-              _playClickSound();
-            },
-            icon: const Icon(Icons.arrow_circle_up, color: Colors.green),
-            iconSize: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {
-                  if (userDirection != Direction.right)
-                    userDirection = Direction.left;
-                  _playClickSound();
-                },
-                icon: const Icon(Icons.arrow_circle_left_outlined,
-                    color: Colors.green),
-                iconSize: 50,
-              ),
-              const SizedBox(width: 20),
-              IconButton(
-                onPressed: () {
-                  if (userDirection != Direction.left)
-                    userDirection = Direction.right;
-                  _playClickSound();
-                },
-                icon: const Icon(Icons.arrow_circle_right_outlined,
-                    color: Colors.green),
-                iconSize: 50,
-              ),
-            ],
-          ),
-          IconButton(
-            onPressed: () {
-              if (userDirection != Direction.up) userDirection = Direction.down;
-              _playClickSound();
-            },
-            icon: const Icon(Icons.arrow_circle_down_outlined,
-                color: Colors.green),
-            iconSize: 50,
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: togglePause,
-                child: Text(isPaused ? "Resume" : "Pause"),
-              ),
-              const SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SelectionPage()),
-                  );
-                },
-                child: const Text("Change Settings"),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
   Color fillBoxColor(int index) {
     if (borderList.contains(index)) {
       return Colors.yellowAccent;
@@ -515,5 +359,187 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
     for (int i = column * (row - 1); i >= 0; i -= row) {
       borderList.add(i); // left border
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Define a base size for scaling different elements
+    double baseGridSize = min(screenWidth, screenHeight) * 0.1;
+    double baseFontSize = min(screenWidth, screenHeight) * 0.04; // Slightly reduce font size
+    double baseButtonSize = min(screenWidth, screenHeight) * 0.1;
+
+    return Scaffold(
+      body: Column(
+        children: [
+          if (isGameRunning)
+            Expanded(
+              child: Column(
+                children: [
+                  // Score Display
+                  Expanded(
+                    flex: 1, // Reduced flex to make the score section smaller
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (!isTwoPlayer)
+                            Column(
+                              children: [
+                                Text(
+                                  "Score: $userScore",
+                                  style: TextStyle(
+                                      fontSize: baseFontSize,
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "High Score: $userHighScore",
+                                  style: TextStyle(
+                                      fontSize: baseFontSize,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          if (isTwoPlayer)
+                            Column (
+                              children: [
+                                Text(
+                                  "Player 1 Wins: $userWins",
+                                  style: TextStyle(
+                                      fontSize: baseFontSize,
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "Player 2 Wins: $computerWins",
+                                  style: TextStyle(
+                                      fontSize: baseFontSize,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Game View
+                  Expanded(
+                    flex: 5,
+                    // Increased flex to allocate more space to the game view
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        child: GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                          SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: column,
+                            childAspectRatio: 1.0,
+                            mainAxisSpacing: 2.0,
+                            crossAxisSpacing: 2.0,
+                          ),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: baseGridSize,
+                              height: baseGridSize,
+                              margin: const EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: fillBoxColor(index),
+                              ),
+                            );
+                          },
+                          itemCount: row * column,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Game Controls
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              if (userDirection != Direction.down)
+                                userDirection = Direction.up;
+                              _playClickSound();
+                            },
+                            icon: const Icon(Icons.arrow_circle_up,
+                                color: Colors.green),
+                            iconSize: baseButtonSize, // Scaled size
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  if (userDirection != Direction.right)
+                                    userDirection = Direction.left;
+                                  _playClickSound();
+                                },
+                                icon: const Icon(
+                                    Icons.arrow_circle_left_outlined,
+                                    color: Colors.green),
+                                iconSize: baseButtonSize, // Scaled size
+                              ),
+                              const SizedBox(width: 20),
+                              IconButton(
+                                onPressed: () {
+                                  if (userDirection != Direction.left)
+                                    userDirection = Direction.right;
+                                  _playClickSound();
+                                },
+                                icon: const Icon(
+                                    Icons.arrow_circle_right_outlined,
+                                    color: Colors.green),
+                                iconSize: baseButtonSize, // Scaled size
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              if (userDirection != Direction.up)
+                                userDirection = Direction.down;
+                              _playClickSound();
+                            },
+                            icon: const Icon(Icons.arrow_circle_down_outlined,
+                                color: Colors.green),
+                            iconSize: baseButtonSize, // Scaled size
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: togglePause,
+                                child: Text(isPaused ? "Resume" : "Pause"),
+                              ),
+                              const SizedBox(width: 20),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => SelectionPage()),
+                                  );
+                                },
+                                child: const Text("Change Settings"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
