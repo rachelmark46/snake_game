@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:snake_game/selectionPage.dart';
 import 'package:snake_game/splash_screen_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'game_state.dart';
+import 'package:flutter_donation_buttons/flutter_donation_buttons.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
 }
 
 class WelcomePage extends StatelessWidget {
+  openURL(String url) async {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
