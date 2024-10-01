@@ -46,7 +46,6 @@ class _SelectionPageState extends State<SelectionPage> {
                   //child: const Text("About Us"),
                   child: Container(
                       height:20,
-                      width: 100,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.yellowAccent,
@@ -57,11 +56,11 @@ class _SelectionPageState extends State<SelectionPage> {
                       alignment: Alignment.center,
                       child: Text('Website',
                           selectionColor: Colors.black,
-                          style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline))
-
+                          style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline)),
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   ),
                 ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 10),
                   InkWell(
                     onTap: () => openURL("https://play.google.com/store/apps/developer?id=Puzzle+Pixel+Studio"),
                     //child: const Text("About Us"),
@@ -77,9 +76,9 @@ class _SelectionPageState extends State<SelectionPage> {
                       alignment: Alignment.center,
                       child: Text('Other Apps',selectionColor: Colors.black,
                           style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline)),
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     ),
-                  ),const SizedBox(width: 20),
+                  ),const SizedBox(width: 10),
                   InkWell(
                     onTap: () => openURL("https://github.com/rachelmark46/snake_game.git"),
                     //child: const Text("About Us"),
@@ -93,9 +92,9 @@ class _SelectionPageState extends State<SelectionPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       alignment: Alignment.center,
-                      child: Text('Source Code',selectionColor: Colors.black,
+                      child: Text('Code',selectionColor: Colors.black,
                           style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline)),
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     ),
                   ),
             ]),
