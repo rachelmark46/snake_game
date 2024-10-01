@@ -3,8 +3,11 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snake_game/aboutmePage.dart';
 import 'package:snake_game/selectionPage.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_donation_buttons/flutter_donation_buttons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SnakeGamePage extends StatefulWidget {
   final int numPlayers;
@@ -198,7 +201,13 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
                 "Change Settings",
                 style: TextStyle(fontSize: 18, color: Colors.green),
               ),
-            ),
+            ), const BuyMeACoffeeButton(
+              text: "Support Us",
+              buyMeACoffeeName: "rachelmark",
+              color: BuyMeACoffeeColor.Blue,
+              //Allows custom styling
+
+            )
           ],
         );
       },
@@ -370,7 +379,9 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
     double baseGridSize = min(screenWidth, screenHeight) * 0.1;
     double baseFontSize = min(screenWidth, screenHeight) * 0.04; // Slightly reduce font size
     double baseButtonSize = min(screenWidth, screenHeight) * 0.1;
-
+    openURL(String url) async {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    }
     return Scaffold(
       body: Column(
         children: [
@@ -458,7 +469,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
                   ),
                   // Game Controls
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

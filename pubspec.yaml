@@ -35,6 +35,8 @@ dependencies:
   flutter_speed_dial: ^7.0.0
   shared_preferences: ^2.2.3
   audioplayers: ^4.1.0
+  flutter_donation_buttons: ^0.4.8
+  flutter_animated_dialog: ^2.0.1
 
 
 
