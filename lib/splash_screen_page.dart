@@ -40,12 +40,17 @@ class SplashScreenPageState extends State<SplashScreenPage> {
                   fontWeight: FontWeight.bold,
                   fontSize: 25.0,
                   color: Colors.white),
-            ),
-            SizedBox(height: 24), // Spacer
+            ), // Spacer
             // Loading text
+            SizedBox(height: 24),
             Text(
               'Rachel Mark',
               style: TextStyle(color: Colors.white),
+            ),
+            // Loading text
+            Text(
+              'www.ppixel.org',
+              style: TextStyle(color: Colors.red),
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'about_page.dart';
 import 'game_state.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_donation_buttons/flutter_donation_buttons.dart';
 
 
 class SelectionPage extends StatefulWidget {
@@ -97,9 +98,18 @@ class _SelectionPageState extends State<SelectionPage> {
                       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     ),
                   ),
-
-
             ]),
+        const SizedBox(height: 40),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const BuyMeACoffeeButton(
+                  text: "Support Us!",
+                  buyMeACoffeeName: "rachelmark",
+                  color: BuyMeACoffeeColor.Green,
+                  //Allows custom styling
+
+                )]),
             const SizedBox(height: 40),
             const Text(
               'Number of Players:',
