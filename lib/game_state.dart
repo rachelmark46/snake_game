@@ -1,9 +1,8 @@
-
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snake_game/aboutmePage.dart';
+//import 'package:snake_game/aboutmePage.dart';
 import 'package:snake_game/selectionPage.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_donation_buttons/flutter_donation_buttons.dart';
@@ -26,8 +25,7 @@ enum Direction { up, down, left, right }
 class _SnakeGamePageState extends State<SnakeGamePage> {
   late AudioPlayer _audioPlayer;
 
-  int row = 20,
-      column = 20;
+  int row = 20, column = 20;
   List<int> borderList = [];
   List<int> userSnakePosition = [];
   List<int> computerSnakePosition = [];
@@ -169,7 +167,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
       builder: (context) {
         return AlertDialog(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: const Text(
             "Game Over",
             style: TextStyle(
@@ -201,12 +199,12 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
                 "Change Settings",
                 style: TextStyle(fontSize: 18, color: Colors.green),
               ),
-            ), const BuyMeACoffeeButton(
+            ),
+            const BuyMeACoffeeButton(
               text: "Support Us",
               buyMeACoffeeName: "rachelmark",
               color: BuyMeACoffeeColor.Blue,
               //Allows custom styling
-
             )
           ],
         );
@@ -356,105 +354,177 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
   }
 
   void makeBorder() {
+    borderList.clear(); // Ensure the list is cleared before adding new borders.
+    //Top Border
     for (int i = 0; i < column; i++) {
-      borderList.add(i); // top border
+      borderList.add(i);
     }
-    for (int i = row; i <= column * row; i += row) {
-      borderList.add(i - 1); // right border
+    // Right Border
+    for (int i = column - 1; i < column * row; i += column) {
+      borderList.add(i);
     }
-    for (int i = column * row - 1; i > column * (row - 1); i--) {
-      borderList.add(i); // bottom border
+    // Bottom Border
+    for (int i = column * (row - 1); i < column * row; i++) {
+      borderList.add(i);
     }
-    for (int i = column * (row - 1); i >= 0; i -= row) {
-      borderList.add(i); // left border
+    // Left Border
+    for (int i = 0; i < column * row; i += column) {
+      borderList.add(i);
     }
+    // for (int i = 0; i < column; i++) {
+    //   borderList.add(i); // top border
+    // }
+    // for (int i = row; i <= column * row; i += row) {
+    //   borderList.add(i - 1); // right border
+    // }
+    // for (int i = column * row - 1; i > column * (row - 1); i--) {
+    //   borderList.add(i); // bottom border
+    // }
+    // for (int i = column * (row - 1); i >= 0; i -= row) {
+    //   borderList.add(i); // left border
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
+    final isSmallScreen = screenWidth < 400;
     // Define a base size for scaling different elements
-    double baseGridSize = min(screenWidth, screenHeight) * 0.1;
-    double baseFontSize = min(screenWidth, screenHeight) * 0.04; // Slightly reduce font size
-    double baseButtonSize = min(screenWidth, screenHeight) * 0.1;
-    openURL(String url) async {
-      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-    }
+    //  final double baseGridSize = min(screenWidth, screenHeight) * 0.05;
+    final double baseFontSize = min(screenWidth, screenHeight) * 0.03;
+    // final double baseButtonSize = min(screenWidth, screenHeight) * 0.1;
+    // Calculate the maximum height for the grid to avoid overlapping
+    double GridHeight = MediaQuery.of(context).size.height * 0.4; // Adjust as necessary
+    // Define a base size for scaling different elements
+    // double baseGridSize = min(screenWidth, screenHeight) * 0.1;
+    // double baseFontSize =
+    //     min(screenWidth, screenHeight) * 0.04; // Slightly reduce font size
+    // double baseButtonSize = min(screenWidth, screenHeight) * 0.1;
+    // openURL(String url) async {
+    //   await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    // }
+
     return Scaffold(
       body: Column(
         children: [
-          if (isGameRunning)
+         // if (isGameRunning)
             Expanded(
               child: Column(
                 children: [
                   // Score Display
+                  // Expanded(
+                  //   flex: 1, // Reduced flex to make the score section smaller
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(5.0),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //       children: [
+                  //         if (!isTwoPlayer)
+                  //           Column(
+                  //             children: [
+                  //               Text(
+                  //                 "Score: $userScore",
+                  //                 style: TextStyle(
+                  //                     fontSize: baseFontSize,
+                  //                     color: Colors.black),
+                  //               ),
+                  //               Text(
+                  //                 "High Score: $userHighScore",
+                  //                 style: TextStyle(
+                  //                     fontSize: baseFontSize,
+                  //                     color: Colors.black),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         if (isTwoPlayer)
+                  //
+                  //           Column(
+                  //             children: [
+                  //               Text(
+                  //                 "Player 1 Wins: $userWins",
+                  //                 style: TextStyle(
+                  //                     fontSize: baseFontSize,
+                  //                     color: Colors.black),
+                  //               ),
+                  //               Text(
+                  //                 "Player 2 Wins: $computerWins",
+                  //                 style: TextStyle(
+                  //                     fontSize: baseFontSize,
+                  //                     color: Colors.black),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // new score display
+
                   Expanded(
-                    flex: 1, // Reduced flex to make the score section smaller
+                    flex: 1, // Keep flex small for the score section
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          if (!isTwoPlayer)
-                            Column(
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          // fontSize: isSmallScreen ? 18 : 20;
+                          //double fontSize = constraints.maxWidth * 0.03; // Adjust font size based on screen width
+
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Score: $userScore",
-                                  style: TextStyle(
-                                      fontSize: baseFontSize,
-                                      color: Colors.black),
+                                  isTwoPlayer
+                                      ? "Player 1 Wins: $userWins"
+                                      : "Score: $userScore", // Display appropriate score
+                                  style: TextStyle( fontSize: isSmallScreen ? 15 : 18, fontWeight: FontWeight.bold,color: Colors.black),
                                 ),
+                                SizedBox(height: constraints.maxHeight * 0.02), // Add some spacing
                                 Text(
-                                  "High Score: $userHighScore",
-                                  style: TextStyle(
-                                      fontSize: baseFontSize,
-                                      color: Colors.black),
+                                  isTwoPlayer
+                                      ? "Player 2 Wins: $computerWins"
+                                      : "High Score: $userHighScore", // Second score line
+                                  style: TextStyle( fontSize: isSmallScreen ? 15: 18,  fontWeight: FontWeight.bold,color: Colors.black),
                                 ),
                               ],
                             ),
-                          if (isTwoPlayer)
-                            Column (
-                              children: [
-                                Text(
-                                  "Player 1 Wins: $userWins",
-                                  style: TextStyle(
-                                      fontSize: baseFontSize,
-                                      color: Colors.black),
-                                ),
-                                Text(
-                                  "Player 2 Wins: $computerWins",
-                                  style: TextStyle(
-                                      fontSize: baseFontSize,
-                                      color: Colors.black),
-                                ),
-                              ],
-                            ),
-                        ],
+                          );
+                        },
                       ),
                     ),
                   ),
+
+
+
                   // Game View
                   Expanded(
-                    flex: 5,
+                    flex: 6,
                     // Increased flex to allocate more space to the game view
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: Container(
+                        height: GridHeight,
+                        width: screenWidth,
                         child: GridView.builder(
+                          shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                               // SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                             crossAxisCount: column,
-                            childAspectRatio: 1.0,
+                            //childAspectRatio: 1.0,
+
+                                //childAspectRatio: 0.8 ,
+                                //childAspectRatio: screenWidth / (screenHeight/4) ,
+                                childAspectRatio: screenWidth / GridHeight ,
                             mainAxisSpacing: 2.0,
                             crossAxisSpacing: 2.0,
                           ),
                           itemBuilder: (context, index) {
                             return Container(
-                              width: baseGridSize,
-                              height: baseGridSize,
+                              //   width: baseGridSize,
+                              //   height: baseGridSize,
                               margin: const EdgeInsets.all(1),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -467,83 +537,115 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
                       ),
                     ),
                   ),
-                  // Game Controls
+
                   Expanded(
-                    flex: 4,
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (userDirection != Direction.down)
-                                userDirection = Direction.up;
-                              _playClickSound();
-                            },
-                            icon: const Icon(Icons.arrow_circle_up,
-                                color: Colors.green),
-                            iconSize: baseButtonSize, // Scaled size
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  if (userDirection != Direction.right)
-                                    userDirection = Direction.left;
-                                  _playClickSound();
-                                },
-                                icon: const Icon(
-                                    Icons.arrow_circle_left_outlined,
-                                    color: Colors.green),
-                                iconSize: baseButtonSize, // Scaled size
-                              ),
-                              const SizedBox(width: 20),
-                              IconButton(
-                                onPressed: () {
-                                  if (userDirection != Direction.left)
-                                    userDirection = Direction.right;
-                                  _playClickSound();
-                                },
-                                icon: const Icon(
-                                    Icons.arrow_circle_right_outlined,
-                                    color: Colors.green),
-                                iconSize: baseButtonSize, // Scaled size
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              if (userDirection != Direction.up)
-                                userDirection = Direction.down;
-                              _playClickSound();
-                            },
-                            icon: const Icon(Icons.arrow_circle_down_outlined,
-                                color: Colors.green),
-                            iconSize: baseButtonSize, // Scaled size
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: togglePause,
-                                child: Text(isPaused ? "Resume" : "Pause"),
-                              ),
-                              const SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => SelectionPage()),
-                                  );
-                                },
-                                child: const Text("Change Settings"),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    flex:
+                        4, // Adjust the flex value to balance with the game grid
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        double controlButtonSize = constraints.maxHeight *
+                            0.15; // 20% of available height
+                        //fontSize: isSmallScreen ? 18: 20,
+                        double buttonFontSize = constraints.maxHeight *
+                            0.05; // 5% of available height
+
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                if (userDirection != Direction.down)
+                                  userDirection = Direction.up;
+                                _playClickSound();
+                              },
+                              icon: const Icon(Icons.arrow_circle_up,
+                                  color: Colors.green),
+                              iconSize: controlButtonSize,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    if (userDirection != Direction.right)
+                                      userDirection = Direction.left;
+                                    _playClickSound();
+                                  },
+                                  icon: const Icon(
+                                      Icons.arrow_circle_left_outlined,
+                                      color: Colors.green),
+                                  iconSize: controlButtonSize,
+                                ),
+                                SizedBox(
+                                    width: constraints.maxWidth *
+                                        0.05), // 5% of available width
+                                IconButton(
+                                  onPressed: () {
+                                    if (userDirection != Direction.left)
+                                      userDirection = Direction.right;
+                                    _playClickSound();
+                                  },
+                                  icon: const Icon(
+                                      Icons.arrow_circle_right_outlined,
+                                      color: Colors.green),
+                                  iconSize: controlButtonSize,
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                if (userDirection != Direction.up)
+                                  userDirection = Direction.down;
+                                _playClickSound();
+                              },
+                              icon: const Icon(Icons.arrow_circle_down_outlined,
+                                  color: Colors.green),
+                              iconSize: controlButtonSize,
+                            ),
+                            SizedBox(
+                                height: constraints.maxHeight *
+                                    0.02), // 5% of available height
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: togglePause,
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: constraints.maxWidth * 0.05,
+                                      vertical: constraints.maxHeight * 0.02,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    isPaused ? "Resume" : "Pause",
+                                    style: TextStyle(fontSize: buttonFontSize),
+                                  ),
+                                ),
+                                SizedBox(width: constraints.maxWidth * 0.02),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SelectionPage()),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: constraints.maxWidth * 0.05,
+                                      vertical: constraints.maxHeight * 0.02,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Change Settings",
+                                    style: TextStyle(fontSize: buttonFontSize),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],
