@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:snake_game/selectionPage.dart';
 import 'package:snake_game/splash_screen_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'game_state.dart';
-import 'package:flutter_donation_buttons/flutter_donation_buttons.dart';
+import 'package:flutter/services.dart';
+
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   runApp(MyApp());
 }
 
